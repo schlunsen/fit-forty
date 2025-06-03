@@ -18,10 +18,10 @@ services:
 
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile.backend
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
     volumes:
-      - ./:/app  # Mount the entire project for live code reloading
+      - ./backend:/app  # Mount only the backend directory for live code reloading
       - static_volume:/app/static
       - media_volume:/app/media
       - /app/venv/  # Exclude venv directory from mounting
@@ -49,8 +49,8 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.frontend
+      context: ./frontend
+      dockerfile: ../docker/Dockerfile.frontend
     volumes:
       - ./frontend:/app  # Mount frontend directory for live code reloading
       - /app/node_modules/  # Exclude node_modules from mounting

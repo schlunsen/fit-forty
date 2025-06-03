@@ -24,7 +24,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir django-debug-toolbar django-extensions
 
 # Copy entrypoint script
-COPY entrypoint.sh .
+COPY ../docker/entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 # We don't copy the project files in development mode
