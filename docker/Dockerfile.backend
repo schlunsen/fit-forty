@@ -23,10 +23,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Django development server requirements
 RUN pip install --no-cache-dir django-debug-toolbar django-extensions
 
-# Copy entrypoint script
-COPY docker/entrypoint.sh .
-RUN chmod +x entrypoint.sh
-
 # We don't copy the project files in development mode
 # as they will be mounted as a volume
 
@@ -34,11 +30,15 @@ RUN chmod +x entrypoint.sh
 RUN mkdir -p /app/static /app/media
 RUN chmod -R 755 /app/static /app/media
 
+# Copy entrypoint script
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Expose port
 EXPOSE 8000
 
 # Run entrypoint script
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Default command is for development mode with the Django development server
 # The actual command will be provided in docker-compose.yml
