@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.env
+.venv
+venv/
+ENV/
+*/__pycache__/
+*/lib/
+*/bin/
+*/include/
+*/share/
+pyvenv.cfg
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+.nuxt/
+.output/
+.env
+
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media
+staticfiles/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+
+# Docker
+.docker/data/
+
+# Local development
+*.local
+**/.claude/settings.local.json

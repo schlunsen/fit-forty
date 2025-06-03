@@ -1,0 +1,45 @@
+FROM python:3.12-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH=/app
+
+# Set work directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install setuptools first to fix pkg_resources issue
+RUN pip install --no-cache-dir setuptools wheel
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Django development server requirements
+RUN pip install --no-cache-dir django-debug-toolbar django-extensions
+
+# Copy entrypoint script
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+# We don't copy the project files in development mode
+# as they will be mounted as a volume
+
+# Create directories for static and media files
+RUN mkdir -p /app/static /app/media
+RUN chmod -R 755 /app/static /app/media
+
+# Expose port
+EXPOSE 8000
+
+# Run entrypoint script
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Default command is for development mode with the Django development server
+# The actual command will be provided in docker-compose.yml
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
