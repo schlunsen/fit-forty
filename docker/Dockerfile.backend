@@ -1,4 +1,5 @@
-FROM python:3.12-slim
+# Base stage
+FROM python:3.12-slim as base
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -19,6 +20,9 @@ RUN pip install --no-cache-dir setuptools wheel
 # Install Python dependencies
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Development stage
+FROM base as development
 
 # Install Django development server requirements
 RUN pip install --no-cache-dir django-debug-toolbar django-extensions
@@ -41,5 +45,30 @@ EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Default command is for development mode with the Django development server
-# The actual command will be provided in docker-compose.yml
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# Production stage
+FROM base as production
+
+# Install production dependencies
+RUN pip install --no-cache-dir gunicorn
+
+# Copy project files
+COPY backend/ .
+
+# Create directories for static and media files
+RUN mkdir -p /app/static /app/media
+RUN chmod -R 755 /app/static /app/media
+
+# Create non-root user
+RUN groupadd -r django && useradd -r -g django django
+RUN chown -R django:django /app
+
+# Switch to non-root user
+USER django
+
+# Expose port
+EXPOSE 8000
+
+# Default command for production
+CMD ["gunicorn", "workout_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120"]
