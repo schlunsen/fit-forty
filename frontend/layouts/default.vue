@@ -6,7 +6,7 @@
         <div class="flex justify-between items-center">
           <!-- Logo -->
           <NuxtLink to="/" class="text-xl font-bold text-primary-600">
-            Workout Tracker
+            FIT <span style="color: black !important">FORTY</span>
           </NuxtLink>
           
           <!-- Navigation -->
@@ -23,9 +23,17 @@
             <div class="relative" ref="userMenuRef">
               <button @click="isUserMenuOpen = !isUserMenuOpen" class="flex items-center space-x-2 focus:outline-none">
                 <span class="text-sm font-medium">{{ authStore.userFullName }}</span>
-                <span class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600">
-                  {{ authStore.user?.username.charAt(0).toUpperCase() }}
-                </span>
+                <div class="h-8 w-8 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center text-gray-600">
+                  <img 
+                    v-if="profilePictureUrl" 
+                    :src="profilePictureUrl"
+                    :alt="authStore.userFullName"
+                    class="w-full h-full object-cover"
+                  />
+                  <span v-else>
+                    {{ authStore.user?.username.charAt(0).toUpperCase() }}
+                  </span>
+                </div>
               </button>
               
               <!-- Dropdown Menu -->
@@ -89,13 +97,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useAuthStore } from '~/stores/auth';
 
 const authStore = useAuthStore();
 const isUserMenuOpen = ref(false);
 const isMobileMenuOpen = ref(false);
 const userMenuRef = ref<HTMLElement | null>(null);
+
+// Get profile picture URL
+const profilePictureUrl = computed(() => {
+  const currentPicture = authStore.profile?.current_profile_picture;
+  if (currentPicture?.image) {
+    // If the image URL is already absolute, use it as is
+    if (currentPicture.image.startsWith('http')) {
+      return currentPicture.image;
+    }
+    // Otherwise, prepend the backend URL
+    return `http://localhost:8000${currentPicture.image}`;
+  }
+  return null;
+});
 
 // Close user menu when clicking outside
 const handleClickOutside = (event: MouseEvent) => {

@@ -7,6 +7,13 @@ export interface User {
   last_name: string;
 }
 
+export interface ProfilePicture {
+  id: number;
+  image: string;
+  is_current: boolean;
+  uploaded_at: string;
+}
+
 export interface UserProfile {
   id: number;
   user: User;
@@ -17,6 +24,8 @@ export interface UserProfile {
   goals: string;
   created_at: string;
   updated_at: string;
+  current_profile_picture?: ProfilePicture;
+  profile_pictures: ProfilePicture[];
 }
 
 // Workout related types
