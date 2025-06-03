@@ -31,7 +31,15 @@ EXPOSE 3000
 CMD ["npm", "run", "dev"]
 
 # Production build stage
-FROM base as build
+FROM node:20-alpine as build
+
+WORKDIR /app
+
+# Copy package files
+COPY frontend/package*.json ./
+
+# Install ALL dependencies (including dev dependencies for building)
+RUN npm ci && npm cache clean --force
 
 # Copy source code
 COPY frontend/ .
