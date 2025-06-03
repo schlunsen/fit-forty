@@ -49,6 +49,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.frontend
+      target: development
     volumes:
       - ./frontend:/app  # Mount frontend directory for live code reloading
       - /app/node_modules/  # Exclude node_modules from mounting
