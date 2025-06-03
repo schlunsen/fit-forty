@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile, ProfilePicture
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -10,13 +10,28 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
 
+class ProfilePictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfilePicture
+        fields = ['id', 'image', 'is_current', 'uploaded_at']
+        read_only_fields = ['id', 'uploaded_at']
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    current_profile_picture = serializers.SerializerMethodField()
+    profile_pictures = ProfilePictureSerializer(source='user.profile_pictures', many=True, read_only=True)
     
     class Meta:
         model = UserProfile
-        fields = ['id', 'user', 'age', 'weight', 'height', 'gender', 'goals', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'age', 'weight', 'height', 'gender', 'goals', 'created_at', 'updated_at', 'current_profile_picture', 'profile_pictures']
         read_only_fields = ['id', 'created_at', 'updated_at']
+    
+    def get_current_profile_picture(self, obj):
+        current_pic = obj.current_profile_picture
+        if current_pic:
+            return ProfilePictureSerializer(current_pic).data
+        return None
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
