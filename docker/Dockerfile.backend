@@ -17,14 +17,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install --no-cache-dir setuptools wheel
 
 # Install Python dependencies
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Django development server requirements
 RUN pip install --no-cache-dir django-debug-toolbar django-extensions
 
 # Copy entrypoint script
-COPY ../docker/entrypoint.sh .
+COPY docker/entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 # We don't copy the project files in development mode
