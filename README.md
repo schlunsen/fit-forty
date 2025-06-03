@@ -1,5 +1,7 @@
 # Workout Tracker App
 
+[![Django Tests](https://github.com/yourusername/workout_app/actions/workflows/django-tests.yml/badge.svg)](https://github.com/yourusername/workout_app/actions/workflows/django-tests.yml)
+
 A full-stack application for tracking workouts, health metrics, and progress photos built with Django REST Framework and Nuxt 3.
 
 ## Features
@@ -66,6 +68,7 @@ workout_app/
 │   ├── api/             # API views and serializers
 │   ├── exercises/       # Exercise management
 │   ├── health/          # Health metrics tracking
+│   ├── tests/           # Test suite
 │   └── workouts/        # Workout tracking
 ├── frontend/            # Nuxt 3 frontend
 │   ├── components/      # Reusable Vue components
@@ -74,8 +77,35 @@ workout_app/
 │   ├── pages/           # Application pages
 │   ├── stores/          # Pinia stores
 │   └── types/           # TypeScript type definitions
-└── docker/              # Docker configuration files
+├── docker/              # Docker configuration files
+└── .github/             # GitHub Actions workflows
 ```
+
+## Testing
+
+### Backend Tests
+
+The backend includes comprehensive tests for models, APIs, and permissions that ensure:
+
+- Users can only access their own data
+- CRUD operations are properly restricted by user ownership
+- API endpoints enforce proper authentication and authorization
+
+To run the tests:
+
+```bash
+cd backend
+python manage.py test
+```
+
+For more detailed testing information, see [backend/tests.md](backend/tests.md).
+
+## Continuous Integration
+
+This project uses GitHub Actions for continuous integration:
+
+- All tests are automatically run on every commit
+- Test status is displayed in the badge at the top of this README
 
 ## License
 
