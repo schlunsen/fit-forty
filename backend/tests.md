@@ -25,10 +25,10 @@ python manage.py test
 python manage.py test health
 
 # Run a specific test class
-python manage.py test health.tests.test_weight_entry.WeightEntryAPITest
+python manage.py test health.test_weight_entry.WeightEntryAPITest
 
 # Run a specific test method
-python manage.py test health.tests.test_weight_entry.WeightEntryAPITest.test_create_weight_entry
+python manage.py test health.test_weight_entry.WeightEntryAPITest.test_create_weight_entry
 ```
 
 ### Using pytest
@@ -41,13 +41,13 @@ pytest
 pytest --cov=.
 
 # Run specific test file
-pytest health/tests/test_weight_entry.py
+pytest health/test_weight_entry.py
 
 # Run specific test class
-pytest health/tests/test_weight_entry.py::WeightEntryAPITest
+pytest health/test_weight_entry.py::WeightEntryAPITest
 
 # Run specific test method
-pytest health/tests/test_weight_entry.py::WeightEntryAPITest::test_create_weight_entry
+pytest health/test_weight_entry.py::WeightEntryAPITest::test_create_weight_entry
 ```
 
 ## Continuous Integration

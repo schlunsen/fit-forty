@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from rest_framework.test import APIRequestFactory, force_authenticate
 from rest_framework.views import APIView
+from rest_framework.request import Request
 from health.views import IsOwnerOrReadOnly
 from health.models import WeightEntry
 from datetime import datetime, timezone
@@ -48,13 +49,14 @@ class IsOwnerOrReadOnlyTest(TestCase):
         # Create a GET request
         request = self.factory.get('/fake-url/')
         
-        # Authenticate as user2 (not the owner)
-        force_authenticate(request, user=self.user2)
+        # Convert to DRF Request and authenticate as user2 (not the owner)
+        drf_request = Request(request)
+        drf_request.user = self.user2
         
         # Check permission
         permission = IsOwnerOrReadOnly()
         has_permission = permission.has_object_permission(
-            request=request,
+            request=drf_request,
             view=None,
             obj=self.weight_entry
         )
@@ -67,13 +69,14 @@ class IsOwnerOrReadOnlyTest(TestCase):
         # Create a PUT request
         request = self.factory.put('/fake-url/')
         
-        # Authenticate as owner
-        force_authenticate(request, user=self.user1)
+        # Convert to DRF Request and authenticate as owner
+        drf_request = Request(request)
+        drf_request.user = self.user1
         
         # Check permission
         permission = IsOwnerOrReadOnly()
         has_permission = permission.has_object_permission(
-            request=request,
+            request=drf_request,
             view=None,
             obj=self.weight_entry
         )
@@ -83,11 +86,12 @@ class IsOwnerOrReadOnlyTest(TestCase):
         
         # Now authenticate as non-owner
         request = self.factory.put('/fake-url/')
-        force_authenticate(request, user=self.user2)
+        drf_request = Request(request)
+        drf_request.user = self.user2
         
         # Check permission
         has_permission = permission.has_object_permission(
-            request=request,
+            request=drf_request,
             view=None,
             obj=self.weight_entry
         )
@@ -100,13 +104,14 @@ class IsOwnerOrReadOnlyTest(TestCase):
         # Create a POST request
         request = self.factory.post('/fake-url/')
         
-        # Authenticate as owner
-        force_authenticate(request, user=self.user1)
+        # Convert to DRF Request and authenticate as owner
+        drf_request = Request(request)
+        drf_request.user = self.user1
         
         # Check permission
         permission = IsOwnerOrReadOnly()
         has_permission = permission.has_object_permission(
-            request=request,
+            request=drf_request,
             view=None,
             obj=self.weight_entry
         )
@@ -116,11 +121,12 @@ class IsOwnerOrReadOnlyTest(TestCase):
         
         # Now authenticate as non-owner
         request = self.factory.post('/fake-url/')
-        force_authenticate(request, user=self.user2)
+        drf_request = Request(request)
+        drf_request.user = self.user2
         
         # Check permission
         has_permission = permission.has_object_permission(
-            request=request,
+            request=drf_request,
             view=None,
             obj=self.weight_entry
         )
@@ -133,13 +139,14 @@ class IsOwnerOrReadOnlyTest(TestCase):
         # Create a DELETE request
         request = self.factory.delete('/fake-url/')
         
-        # Authenticate as owner
-        force_authenticate(request, user=self.user1)
+        # Convert to DRF Request and authenticate as owner
+        drf_request = Request(request)
+        drf_request.user = self.user1
         
         # Check permission
         permission = IsOwnerOrReadOnly()
         has_permission = permission.has_object_permission(
-            request=request,
+            request=drf_request,
             view=None,
             obj=self.weight_entry
         )
@@ -149,11 +156,12 @@ class IsOwnerOrReadOnlyTest(TestCase):
         
         # Now authenticate as non-owner
         request = self.factory.delete('/fake-url/')
-        force_authenticate(request, user=self.user2)
+        drf_request = Request(request)
+        drf_request.user = self.user2
         
         # Check permission
         has_permission = permission.has_object_permission(
-            request=request,
+            request=drf_request,
             view=None,
             obj=self.weight_entry
         )

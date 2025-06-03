@@ -1,6 +1,6 @@
 # Workout Tracker App
 
-[![Django Tests](https://github.com/yourusername/workout_app/actions/workflows/django-tests.yml/badge.svg)](https://github.com/yourusername/workout_app/actions/workflows/django-tests.yml)
+[![Django Tests](https://github.com/schlunsen/fit-forty/actions/workflows/django-tests.yml/badge.svg)](https://github.com/schlunsen/fit-forty/actions/workflows/django-tests.yml)
 
 A full-stack application for tracking workouts, health metrics, and progress photos built with Django REST Framework and Nuxt 3.
 
