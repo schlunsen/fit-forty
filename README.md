@@ -1,6 +1,7 @@
 # Workout Tracker App
 
-[![Django Tests](https://github.com/schlunsen/fit-forty/actions/workflows/django-tests.yml/badge.svg)](https://github.com/schlunsen/fit-forty/actions/workflows/django-tests.yml)
+[![CI/CD Pipeline](https://github.com/schlunsen/fit-forty/actions/workflows/django-tests.yml/badge.svg)](https://github.com/schlunsen/fit-forty/actions/workflows/django-tests.yml)
+[![Docker Images](https://img.shields.io/badge/Docker-GHCR-blue?logo=docker)](https://github.com/schlunsen/fit-forty/pkgs/container/workout_app%2Fbackend)
 
 A full-stack application for tracking workouts, health metrics, and progress photos built with Django REST Framework and Nuxt 3.
 
@@ -51,6 +52,24 @@ A full-stack application for tracking workouts, health metrics, and progress pho
 3. The application will be available at:
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8000/api
+
+## 🚀 Production Deployment
+
+For production deployment using pre-built Docker images from GitHub Container Registry:
+
+📖 **[See DEPLOYMENT.md](DEPLOYMENT.md)** for comprehensive deployment instructions including:
+- Using pre-built Docker images from GHCR
+- Kubernetes deployment examples
+- Cloud platform deployment (Google Cloud Run, AWS ECS)
+- Environment configuration
+- Monitoring and troubleshooting
+
+### Quick Production Start
+```bash
+# Using pre-built images from GitHub Container Registry
+export GITHUB_REPOSITORY=your-username/workout_app
+docker-compose -f docker-compose.ghcr.yml up -d
+```
 
 ### Development with Hot Reloading
 

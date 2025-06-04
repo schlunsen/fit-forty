@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, serializers
 from .models import Exercise, WorkoutLog, ExerciseLog
 from .serializers import ExerciseSerializer, WorkoutLogSerializer, ExerciseLogSerializer
 
@@ -53,6 +53,8 @@ class ExerciseLogViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # Ensure the workout belongs to the current user
         workout = serializer.validated_data.get('workout')
+        if not workout:
+            raise serializers.ValidationError("Workout is required")
         if workout.user != self.request.user:
             raise permissions.PermissionDenied("You cannot add exercises to another user's workout")
         serializer.save()

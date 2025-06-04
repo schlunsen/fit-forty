@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
+  <div class="card overflow-hidden hover:shadow-lg transition-shadow duration-200">
     <NuxtLink :to="`/exercises/${exercise.id}`" class="block">
-      <div class="h-48 bg-gray-100 relative">
+      <div class="h-48 relative" style="background-color: var(--color-surface)">
         <img 
           :src="exerciseImage" 
           :alt="exercise.name" 
@@ -12,27 +12,27 @@
         </div>
         
         <!-- Equipment Badge -->
-        <div class="absolute top-3 right-3 bg-white/90 text-gray-800 rounded-full px-2 py-1 text-xs font-medium">
+        <div class="absolute top-3 right-3 rounded-full px-2 py-1 text-xs font-medium" style="background-color: rgba(255, 255, 255, 0.9); color: var(--color-text)">
           {{ getEquipmentLabel(exercise.equipment_type) }}
         </div>
       </div>
       
       <div class="p-4">
         <div class="flex items-center mb-2">
-          <span class="bg-blue-100 text-blue-800 rounded-full px-2 py-0.5 text-xs font-medium">
+          <span class="rounded-full px-2 py-0.5 text-xs font-medium" style="background-color: var(--color-primary); color: white">
             {{ exercise.muscles_targeted }}
           </span>
         </div>
         
-        <p class="text-gray-600 text-sm line-clamp-2 mb-3">{{ exercise.description }}</p>
+        <p class="text-sm line-clamp-2 mb-3" style="color: var(--color-text-secondary)">{{ exercise.description }}</p>
         
         <div class="flex justify-between items-center">
-          <div class="flex items-center text-xs text-gray-500">
+          <div class="flex items-center text-xs" style="color: var(--color-text-secondary)">
             <span v-if="showDifficulty" class="mr-2">
               {{ getDifficultyLabel() }}
             </span>
           </div>
-          <span class="text-primary-600 text-sm font-medium">View Details →</span>
+          <span class="text-sm font-medium" style="color: var(--color-primary)">View Details →</span>
         </div>
       </div>
     </NuxtLink>

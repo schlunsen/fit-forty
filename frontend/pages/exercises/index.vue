@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4 py-6">
-    <h1 class="text-2xl font-bold mb-6">Exercise Library</h1>
+    <h1 class="text-2xl font-bold mb-6" style="color: var(--color-text)">Exercise Library</h1>
     
     <!-- Loading state -->
     <div v-if="loading" class="flex justify-center my-8">
@@ -13,7 +13,7 @@
         <div 
           v-for="category in categories" 
           :key="category.id" 
-          class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden"
+          class="card hover:shadow-lg transition-shadow duration-200 overflow-hidden"
         >
           <NuxtLink :to="`/exercises/categories/${category.id}`" class="block">
             <div class="h-40 bg-gray-200 relative overflow-hidden">
@@ -27,10 +27,10 @@
               </div>
             </div>
             <div class="p-4">
-              <p class="text-gray-600 text-sm mb-2">{{ category.description }}</p>
+              <p class="text-sm mb-2" style="color: var(--color-text-secondary)">{{ category.description }}</p>
               <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-500">{{ category.exerciseCount }} exercises</span>
-                <span class="text-primary-600 text-sm font-medium">View All →</span>
+                <span class="text-sm" style="color: var(--color-text-secondary)">{{ category.exerciseCount }} exercises</span>
+                <span class="text-sm font-medium" style="color: var(--color-primary)">View All →</span>
               </div>
             </div>
           </NuxtLink>
@@ -38,7 +38,7 @@
       </div>
       
       <!-- Featured Exercises -->
-      <h2 class="text-xl font-semibold mb-4">Featured Home Workouts</h2>
+      <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text)">Featured Home Workouts</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <ExerciseCard 
           v-for="exercise in featuredExercises" 
@@ -49,14 +49,14 @@
       
       <!-- Search Box -->
       <div class="mt-6 mb-10">
-        <h2 class="text-xl font-semibold mb-4">Search Exercises</h2>
+        <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text)">Search Exercises</h2>
         <div class="flex flex-col md:flex-row gap-4">
           <div class="flex-1">
             <input 
               v-model="searchQuery" 
               type="text" 
               placeholder="Search by name, muscle group, or equipment..." 
-              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              class="form-input"
               @keyup.enter="searchExercises"
             />
           </div>
@@ -70,17 +70,19 @@
         
         <!-- Search Results -->
         <div v-if="searchResults.length > 0" class="mt-4">
-          <h3 class="text-lg font-medium mb-2">Search Results</h3>
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <div class="grid grid-cols-1 divide-y divide-gray-200">
+          <h3 class="text-lg font-medium mb-2" style="color: var(--color-text)">Search Results</h3>
+          <div class="card overflow-hidden">
+            <div class="grid grid-cols-1 divide-y" style="border-color: var(--color-border)">
               <div 
                 v-for="exercise in searchResults" 
                 :key="exercise.id" 
-                class="p-4 hover:bg-gray-50"
+                class="p-4 transition-colors duration-200"
+                @mouseover="$event.target.style.backgroundColor = 'var(--color-background)'" 
+                @mouseleave="$event.target.style.backgroundColor = 'transparent'"
               >
                 <NuxtLink :to="`/exercises/${exercise.id}`" class="block">
                   <div class="flex items-center">
-                    <div class="h-12 w-12 bg-gray-200 rounded-md overflow-hidden mr-4">
+                    <div class="h-12 w-12 rounded-md overflow-hidden mr-4" style="background-color: var(--color-surface)">
                       <img 
                         :src="getExerciseImage(exercise)" 
                         :alt="exercise.name" 
@@ -88,14 +90,14 @@
                       />
                     </div>
                     <div class="flex-1">
-                      <h4 class="font-medium text-gray-900">{{ exercise.name }}</h4>
-                      <div class="flex items-center text-sm text-gray-500">
+                      <h4 class="font-medium" style="color: var(--color-text)">{{ exercise.name }}</h4>
+                      <div class="flex items-center text-sm" style="color: var(--color-text-secondary)">
                         <span>{{ exercise.muscles_targeted }}</span>
                         <span class="mx-2">•</span>
                         <span>{{ getEquipmentLabel(exercise.equipment_type) }}</span>
                       </div>
                     </div>
-                    <div class="text-gray-400">
+                    <div style="color: var(--color-text-secondary)">
                       <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                       </svg>

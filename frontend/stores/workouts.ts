@@ -210,10 +210,17 @@ export const useWorkoutsStore = defineStore('workouts', {
       
       try {
         const api = useApi();
-        const newExerciseLog = await api.post<ExerciseLog>('/exercise-logs/', {
+        
+        // Clean the data to ensure proper formatting
+        const cleanedData = {
           ...exerciseLogData,
           workout: workoutId,
-        });
+          notes: exerciseLogData.notes || '',  // Convert null to empty string
+        };
+        
+        console.log('Sending exercise log data:', cleanedData);
+        
+        const newExerciseLog = await api.post<ExerciseLog>('/exercise-logs/', cleanedData);
         
         // Refresh the workout to get updated exercise logs
         await this.fetchWorkout(workoutId);
@@ -222,6 +229,9 @@ export const useWorkoutsStore = defineStore('workouts', {
       } catch (error: any) {
         this.error = error.response?.data?.detail || 'Failed to add exercise log';
         console.error('Error adding exercise log:', error);
+        console.error('Error response:', error.response);
+        console.error('Error data:', error.response?.data);
+        console.error('Error status:', error.response?.status);
         return null;
       } finally {
         this.loading = false;
@@ -234,7 +244,14 @@ export const useWorkoutsStore = defineStore('workouts', {
       
       try {
         const api = useApi();
-        const updatedExerciseLog = await api.patch<ExerciseLog>(`/exercise-logs/${id}/`, exerciseLogData);
+        
+        // Clean the data to ensure proper formatting
+        const cleanedData = {
+          ...exerciseLogData,
+          notes: exerciseLogData.notes || '',  // Convert null to empty string
+        };
+        
+        const updatedExerciseLog = await api.patch<ExerciseLog>(`/exercise-logs/${id}/`, cleanedData);
         
         // Refresh the workout if needed
         if (this.currentWorkout && updatedExerciseLog) {
@@ -245,6 +262,7 @@ export const useWorkoutsStore = defineStore('workouts', {
       } catch (error: any) {
         this.error = error.response?.data?.detail || 'Failed to update exercise log';
         console.error('Error updating exercise log:', error);
+        console.error('Error details:', error.response?.data);
         return null;
       } finally {
         this.loading = false;
