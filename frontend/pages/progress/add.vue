@@ -252,10 +252,8 @@ const submitForm = async () => {
       formData.append('notes', form.notes);
     }
     
-    // Add body part tags
-    form.bodyPartTags.forEach((tag, index) => {
-      formData.append(`body_part_tags[${index}]`, tag);
-    });
+    // Add body part tags as JSON string
+    formData.append('body_part_tags', JSON.stringify(form.bodyPartTags));
     
     // Submit to API
     const result = await healthStore.addProgressPhoto(formData);
