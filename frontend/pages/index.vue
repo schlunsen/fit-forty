@@ -2,8 +2,8 @@
   <div>
     <!-- Dashboard Header -->
     <header class="mb-8">
-      <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
-      <p class="text-gray-600">Welcome back, {{ userName }}!</p>
+      <h1 class="text-2xl font-bold" style="color: var(--color-text)">Dashboard</h1>
+      <p style="color: var(--color-text-secondary)">Welcome back, {{ userName }}!</p>
     </header>
     
     <!-- Loading State -->
@@ -14,22 +14,22 @@
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Recent Weight -->
       <div class="card">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Weight Tracking</h2>
+        <h2 class="text-lg font-semibold mb-4" style="color: var(--color-text)">Weight Tracking</h2>
         
         <div v-if="latestWeight" class="mb-4">
           <div class="flex justify-between items-center">
-            <span class="text-gray-600">Current Weight:</span>
+            <span style="color: var(--color-text-secondary)">Current Weight:</span>
             <span class="text-xl font-bold">{{ latestWeight.weight_kg }} kg</span>
           </div>
-          <div class="text-xs text-gray-500 text-right">
+          <div class="text-xs text-right" style="color: var(--color-text-muted)">
             {{ formatDate(latestWeight.timestamp) }}
           </div>
         </div>
-        <p v-else class="text-gray-500 mb-4">No weight entries yet</p>
+        <p v-else class="mb-4" style="color: var(--color-text-muted)">No weight entries yet</p>
         
         <div class="h-48">
           <LineChart v-if="hasWeightData" :data="weightChartData" :options="chartOptions" />
-          <div v-else class="h-full flex items-center justify-center text-gray-400">
+          <div v-else class="h-full flex items-center justify-center" style="color: var(--color-text-muted)">
             Add weight entries to see your chart
           </div>
         </div>
@@ -46,26 +46,26 @@
       
       <!-- Recent Blood Pressure -->
       <div class="card">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Blood Pressure</h2>
+        <h2 class="text-lg font-semibold mb-4" style="color: var(--color-text)">Blood Pressure</h2>
         
         <div v-if="latestBP" class="mb-4">
           <div class="flex justify-between items-center">
-            <span class="text-gray-600">Current Reading:</span>
+            <span style="color: var(--color-text-secondary)">Current Reading:</span>
             <span class="text-xl font-bold">{{ latestBP.systolic }}/{{ latestBP.diastolic }}</span>
           </div>
           <div v-if="latestBP.pulse" class="flex justify-between items-center">
-            <span class="text-gray-600">Pulse:</span>
+            <span style="color: var(--color-text-secondary)">Pulse:</span>
             <span>{{ latestBP.pulse }} bpm</span>
           </div>
-          <div class="text-xs text-gray-500 text-right">
+          <div class="text-xs text-right" style="color: var(--color-text-muted)">
             {{ formatDate(latestBP.timestamp) }}
           </div>
         </div>
-        <p v-else class="text-gray-500 mb-4">No blood pressure readings yet</p>
+        <p v-else class="mb-4" style="color: var(--color-text-muted)">No blood pressure readings yet</p>
         
         <div class="h-48">
           <LineChart v-if="hasBPData" :data="bpChartData" :options="chartOptions" />
-          <div v-else class="h-full flex items-center justify-center text-gray-400">
+          <div v-else class="h-full flex items-center justify-center" style="color: var(--color-text-muted)">
             Add readings to see your chart
           </div>
         </div>
@@ -82,23 +82,23 @@
       
       <!-- Recent Workouts -->
       <div class="card">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Recent Workouts</h2>
+        <h2 class="text-lg font-semibold mb-4" style="color: var(--color-text)">Recent Workouts</h2>
         
         <div v-if="recentWorkouts.length > 0" class="space-y-3 mb-4">
-          <div v-for="workout in recentWorkouts" :key="workout.id" class="border-b border-gray-100 pb-2 last:border-0">
+          <div v-for="workout in recentWorkouts" :key="workout.id" class="border-b pb-2 last:border-0" style="border-color: var(--color-border)">
             <div class="flex justify-between items-center">
               <span class="font-medium">{{ formatDate(workout.date) }}</span>
-              <span class="text-sm text-gray-500">{{ workout.exercise_logs.length }} exercises</span>
+              <span class="text-sm" style="color: var(--color-text-muted)">{{ workout.exercise_logs.length }} exercises</span>
             </div>
-            <div v-if="workout.duration_minutes" class="text-sm text-gray-600">
+            <div v-if="workout.duration_minutes" class="text-sm" style="color: var(--color-text-secondary)">
               {{ workout.duration_minutes }} minutes
             </div>
-            <div v-if="workout.notes" class="text-sm text-gray-600 truncate">
+            <div v-if="workout.notes" class="text-sm truncate" style="color: var(--color-text-secondary)">
               {{ workout.notes }}
             </div>
           </div>
         </div>
-        <p v-else class="text-gray-500 mb-4">No workouts logged yet</p>
+        <p v-else class="mb-4" style="color: var(--color-text-muted)">No workouts logged yet</p>
         
         <div class="mt-4 flex justify-between items-center">
           <NuxtLink to="/workouts" class="text-sm text-primary-600 hover:underline">
@@ -112,7 +112,7 @@
       
       <!-- Progress Photos -->
       <div class="card md:col-span-2 lg:col-span-3">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Progress Photos</h2>
+        <h2 class="text-lg font-semibold mb-4" style="color: var(--color-text)">Progress Photos</h2>
         
         <div v-if="recentPhotos.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           <div v-for="photo in recentPhotos" :key="photo.id" class="relative aspect-square">
@@ -122,7 +122,7 @@
             </div>
           </div>
         </div>
-        <p v-else class="text-gray-500 mb-4">No progress photos uploaded yet</p>
+        <p v-else class="mb-4" style="color: var(--color-text-muted)">No progress photos uploaded yet</p>
         
         <div class="mt-4 flex justify-between items-center">
           <NuxtLink to="/progress" class="text-sm text-primary-600 hover:underline">

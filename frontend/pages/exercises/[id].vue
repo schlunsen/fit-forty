@@ -8,7 +8,7 @@
     <template v-else-if="exercise">
       <!-- Back Button -->
       <div class="mb-4">
-        <NuxtLink to="/exercises" class="text-primary-600 hover:text-primary-700 font-medium flex items-center">
+        <NuxtLink to="/exercises" class="font-medium flex items-center transition-colors duration-200" style="color: var(--color-primary)" @mouseover="$event.target.style.opacity = '0.8'" @mouseleave="$event.target.style.opacity = '1'">
           <svg class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
@@ -20,7 +20,7 @@
       <div class="flex flex-col md:flex-row gap-6 mb-8">
         <!-- Image -->
         <div class="md:w-1/3">
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md aspect-video">
+          <div class="rounded-lg overflow-hidden shadow-md aspect-video" style="background-color: var(--color-surface)">
             <img 
               :src="exercise.image || 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" 
               :alt="exercise.name" 
@@ -31,24 +31,24 @@
         
         <!-- Details -->
         <div class="md:w-2/3">
-          <h1 class="text-2xl font-bold mb-2">{{ exercise.name }}</h1>
+          <h1 class="text-2xl font-bold mb-2" style="color: var(--color-text)">{{ exercise.name }}</h1>
           
           <div class="flex flex-wrap gap-2 mb-4">
-            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+            <span class="px-3 py-1 rounded-full text-sm font-medium" style="background-color: var(--color-primary); color: white">
               {{ exercise.muscles_targeted }}
             </span>
-            <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+            <span class="px-3 py-1 rounded-full text-sm font-medium" style="background-color: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border)">
               {{ getEquipmentLabel(exercise.equipment_type) }}
             </span>
           </div>
           
-          <p class="text-gray-600 mb-6">{{ exercise.description }}</p>
+          <p class="mb-6" style="color: var(--color-text-secondary)">{{ exercise.description }}</p>
           
           <!-- Instructions -->
           <div class="mb-6">
-            <h2 class="text-lg font-semibold mb-3">How to Perform</h2>
+            <h2 class="text-lg font-semibold mb-3" style="color: var(--color-text)">How to Perform</h2>
             <ol class="list-decimal pl-5 space-y-2">
-              <li v-for="(step, index) in exerciseInstructions" :key="index" class="text-gray-700">
+              <li v-for="(step, index) in exerciseInstructions" :key="index" style="color: var(--color-text-secondary)">
                 {{ step }}
               </li>
             </ol>
@@ -56,8 +56,8 @@
           
           <!-- Video Tutorial -->
           <div v-if="exercise.video_url" class="mb-4">
-            <h2 class="text-lg font-semibold mb-2">Video Tutorial</h2>
-            <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+            <h2 class="text-lg font-semibold mb-2" style="color: var(--color-text)">Video Tutorial</h2>
+            <div class="aspect-video rounded-lg overflow-hidden" style="background-color: var(--color-surface)">
               <iframe 
                 :src="getEmbedUrl(exercise.video_url)" 
                 class="w-full h-full" 
@@ -71,54 +71,54 @@
       </div>
       
       <!-- Log This Exercise Section -->
-      <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200">
-        <h2 class="text-lg font-semibold mb-4">Log This Exercise</h2>
+      <div class="card mb-8">
+        <h2 class="text-lg font-semibold mb-4" style="color: var(--color-text)">Log This Exercise</h2>
         
         <form @submit.prevent="logExercise" class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label for="sets" class="block text-sm font-medium text-gray-700 mb-1">Sets</label>
+              <label for="sets" class="label">Sets</label>
               <input 
                 id="sets"
                 v-model="logForm.sets"
                 type="number" 
                 min="1"
-                class="input"
+                class="form-input"
                 required
               />
             </div>
             <div>
-              <label for="reps" class="block text-sm font-medium text-gray-700 mb-1">Reps</label>
+              <label for="reps" class="label">Reps</label>
               <input 
                 id="reps"
                 v-model="logForm.reps"
                 type="number" 
                 min="1"
-                class="input"
+                class="form-input"
                 required
               />
             </div>
             <div>
-              <label for="weight" class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
+              <label for="weight" class="label">Weight (kg)</label>
               <input 
                 id="weight"
                 v-model="logForm.weight"
                 type="number" 
                 min="0"
                 step="0.5"
-                class="input"
+                class="form-input"
                 required
               />
             </div>
           </div>
           
           <div>
-            <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <label for="notes" class="label">Notes</label>
             <textarea 
               id="notes"
               v-model="logForm.notes"
               rows="2"
-              class="input"
+              class="form-textarea"
               placeholder="Add any notes about this exercise..."
             ></textarea>
           </div>
@@ -140,15 +140,15 @@
       
       <!-- Related Exercises -->
       <div>
-        <h2 class="text-xl font-semibold mb-4">Similar Exercises</h2>
+        <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text)">Similar Exercises</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <div 
             v-for="relatedExercise in relatedExercises" 
             :key="relatedExercise.id" 
-            class="bg-white rounded-lg shadow overflow-hidden hover:shadow-md transition-shadow duration-200"
+            class="card hover:shadow-md transition-shadow duration-200"
           >
             <NuxtLink :to="`/exercises/${relatedExercise.id}`" class="block">
-              <div class="h-32 bg-gray-100">
+              <div class="h-32" style="background-color: var(--color-surface)">
                 <img 
                   :src="relatedExercise.image || 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'" 
                   :alt="relatedExercise.name" 
@@ -156,9 +156,9 @@
                 />
               </div>
               <div class="p-3">
-                <h3 class="font-medium text-gray-900 mb-1">{{ relatedExercise.name }}</h3>
-                <div class="flex items-center text-xs text-gray-500">
-                  <span class="bg-blue-100 text-blue-800 rounded-full px-2 py-0.5">
+                <h3 class="font-medium mb-1" style="color: var(--color-text)">{{ relatedExercise.name }}</h3>
+                <div class="flex items-center text-xs">
+                  <span class="rounded-full px-2 py-0.5" style="background-color: var(--color-primary); color: white">
                     {{ relatedExercise.muscles_targeted }}
                   </span>
                 </div>
@@ -170,8 +170,8 @@
     </template>
     
     <div v-else class="text-center py-10">
-      <h2 class="text-xl font-semibold text-gray-700">Exercise not found</h2>
-      <p class="text-gray-500 mt-2">The exercise you're looking for doesn't exist or has been removed.</p>
+      <h2 class="text-xl font-semibold mt-2" style="color: var(--color-text)">Exercise not found</h2>
+      <p class="mt-2" style="color: var(--color-text-secondary)">The exercise you're looking for doesn't exist or has been removed.</p>
       <NuxtLink to="/exercises" class="btn mt-4 inline-block">
         Browse Exercises
       </NuxtLink>

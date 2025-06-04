@@ -407,7 +407,7 @@ const addExercise = async () => {
       sets: exerciseForm.sets,
       reps: exerciseForm.reps,
       weight: exerciseForm.weight,
-      notes: exerciseForm.notes || null
+      notes: exerciseForm.notes || ''
     });
     
     // Reset form and close modal
@@ -446,7 +446,7 @@ const updateExercise = async () => {
       sets: editForm.sets,
       reps: editForm.reps,
       weight: editForm.weight,
-      notes: editForm.notes || null
+      notes: editForm.notes || ''
     });
     
     showEditModal.value = false;

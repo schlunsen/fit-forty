@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col" style="background-color: var(--color-background)">
     <!-- Navigation Header -->
-    <header class="bg-white border-b border-gray-200 shadow-sm">
+    <header class="shadow-sm" style="background-color: var(--color-surface); border-bottom: 1px solid var(--color-border)">
       <div class="container mx-auto px-4 py-3">
         <div class="flex justify-between items-center">
           <!-- Logo -->
-          <NuxtLink to="/" class="text-xl font-bold text-primary-600">
-            FIT <span style="color: black !important">FORTY</span>
+          <NuxtLink to="/" class="text-xl font-bold" style="color: var(--color-primary)">
+            FIT <span style="color: var(--color-text) !important">FORTY</span>
           </NuxtLink>
           
           <!-- Navigation -->
@@ -22,8 +22,8 @@
           <div v-if="authStore.isAuthenticated" class="flex items-center">
             <div class="relative" ref="userMenuRef">
               <button @click="isUserMenuOpen = !isUserMenuOpen" class="flex items-center space-x-2 focus:outline-none">
-                <span class="text-sm font-medium">{{ authStore.userFullName }}</span>
-                <div class="h-8 w-8 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center text-gray-600">
+                <span class="text-sm font-medium" style="color: var(--color-text)">{{ authStore.userFullName }}</span>
+                <div class="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center" style="background-color: var(--color-surface); color: var(--color-text-secondary)">
                   <img 
                     v-if="profilePictureUrl" 
                     :src="profilePictureUrl"
@@ -37,11 +37,11 @@
               </button>
               
               <!-- Dropdown Menu -->
-              <div v-if="isUserMenuOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                <NuxtLink to="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              <div v-if="isUserMenuOpen" class="absolute right-0 mt-2 w-48 rounded-md py-1 z-10" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow)">
+                <NuxtLink to="/profile" class="block px-4 py-2 text-sm transition-colors duration-200" style="color: var(--color-text)" @mouseover="$event.target.style.backgroundColor = 'var(--color-background)'" @mouseleave="$event.target.style.backgroundColor = 'transparent'">
                   Profile
                 </NuxtLink>
-                <button @click="logout" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <button @click="logout" class="block w-full text-left px-4 py-2 text-sm transition-colors duration-200" style="color: var(--color-text)" @mouseover="$event.target.style.backgroundColor = 'var(--color-background)'" @mouseleave="$event.target.style.backgroundColor = 'transparent'">
                   Sign Out
                 </button>
               </div>
@@ -50,7 +50,7 @@
           
           <!-- Login/Register Links -->
           <div v-else class="flex items-center space-x-4">
-            <NuxtLink to="/login" class="text-sm font-medium text-gray-600 hover:text-primary-600">
+            <NuxtLink to="/login" class="text-sm font-medium transition-colors duration-200" style="color: var(--color-text-secondary)" @mouseover="$event.target.style.color = 'var(--color-primary)'" @mouseleave="$event.target.style.color = 'var(--color-text-secondary)'">
               Sign In
             </NuxtLink>
             <NuxtLink to="/register" class="btn text-sm">
@@ -60,7 +60,7 @@
           
           <!-- Mobile Menu Button -->
           <button v-if="authStore.isAuthenticated" @click="isMobileMenuOpen = !isMobileMenuOpen" class="md:hidden focus:outline-none">
-            <svg class="h-6 w-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="h-6 w-6" style="color: var(--color-text-secondary)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path v-if="!isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -69,13 +69,13 @@
         
         <!-- Mobile Menu -->
         <div v-if="isMobileMenuOpen && authStore.isAuthenticated" class="md:hidden mt-3 space-y-2">
-          <NuxtLink to="/" class="block py-2 text-gray-600 hover:text-primary-600">Dashboard</NuxtLink>
-          <NuxtLink to="/workouts" class="block py-2 text-gray-600 hover:text-primary-600">Workouts</NuxtLink>
-          <NuxtLink to="/exercises" class="block py-2 text-gray-600 hover:text-primary-600">Exercises</NuxtLink>
-          <NuxtLink to="/health" class="block py-2 text-gray-600 hover:text-primary-600">Health</NuxtLink>
-          <NuxtLink to="/progress" class="block py-2 text-gray-600 hover:text-primary-600">Progress Photos</NuxtLink>
-          <NuxtLink to="/profile" class="block py-2 text-gray-600 hover:text-primary-600">Profile</NuxtLink>
-          <button @click="logout" class="block w-full text-left py-2 text-gray-600 hover:text-primary-600">
+          <NuxtLink to="/" class="nav-link block py-2">Dashboard</NuxtLink>
+          <NuxtLink to="/workouts" class="nav-link block py-2">Workouts</NuxtLink>
+          <NuxtLink to="/exercises" class="nav-link block py-2">Exercises</NuxtLink>
+          <NuxtLink to="/health" class="nav-link block py-2">Health</NuxtLink>
+          <NuxtLink to="/progress" class="nav-link block py-2">Progress Photos</NuxtLink>
+          <NuxtLink to="/profile" class="nav-link block py-2">Profile</NuxtLink>
+          <button @click="logout" class="nav-link block w-full text-left py-2">
             Sign Out
           </button>
         </div>
@@ -88,8 +88,8 @@
     </main>
     
     <!-- Footer -->
-    <footer class="bg-gray-50 border-t border-gray-200 py-4">
-      <div class="container mx-auto px-4 text-center text-sm text-gray-500">
+    <footer class="py-4" style="background-color: var(--color-surface); border-top: 1px solid var(--color-border)">
+      <div class="container mx-auto px-4 text-center text-sm" style="color: var(--color-text-secondary)">
         &copy; {{ new Date().getFullYear() }} WorkoutTracker. All rights reserved.
       </div>
     </footer>
@@ -99,8 +99,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useAuthStore } from '~/stores/auth';
+import { useThemeStore } from '~/stores/theme';
 
 const authStore = useAuthStore();
+const themeStore = useThemeStore();
 const isUserMenuOpen = ref(false);
 const isMobileMenuOpen = ref(false);
 const userMenuRef = ref<HTMLElement | null>(null);
@@ -131,9 +133,10 @@ const logout = () => {
   authStore.logout();
 };
 
-// Initialize auth
+// Initialize auth and theme
 onMounted(() => {
   authStore.initAuth();
+  themeStore.initTheme();
   document.addEventListener('click', handleClickOutside);
 });
 
@@ -144,6 +147,11 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .nav-link {
-  @apply text-gray-600 hover:text-primary-600 font-medium;
+  @apply font-medium transition-colors duration-200;
+  color: var(--color-text-secondary);
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
 }
 </style>

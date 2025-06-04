@@ -1,20 +1,20 @@
 <template>
   <div>
-    <h1 class="text-2xl font-bold mb-6">Log New Workout</h1>
+    <h1 class="text-2xl font-bold mb-6" style="color: var(--color-text)">Log New Workout</h1>
     
     <!-- Workout Info Form -->
     <div class="card max-w-3xl mx-auto mb-8">
-      <h2 class="text-lg font-semibold mb-4">Workout Details</h2>
+      <h2 class="text-lg font-semibold mb-4" style="color: var(--color-text)">Workout Details</h2>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <!-- Date Input -->
         <div>
-          <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+          <label for="date" class="label">Date</label>
           <input 
             v-model="form.date"
             id="date"
             type="date"
-            class="form-input w-full rounded-md border-gray-300"
+            class="form-input"
             required
             :disabled="submitting"
           />
@@ -22,14 +22,14 @@
         
         <!-- Duration Input -->
         <div>
-          <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">Duration (minutes)</label>
+          <label for="duration" class="label">Duration (minutes)</label>
           <input 
             v-model.number="form.duration_minutes"
             id="duration"
             type="number"
             min="1"
             max="300"
-            class="form-input w-full rounded-md border-gray-300"
+            class="form-input"
             :disabled="submitting"
           />
         </div>
@@ -37,12 +37,12 @@
       
       <!-- Notes Input -->
       <div class="mb-4">
-        <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notes (optional)</label>
+        <label for="notes" class="label">Notes (optional)</label>
         <textarea 
           v-model="form.notes"
           id="notes"
           rows="3"
-          class="form-textarea w-full rounded-md border-gray-300"
+          class="form-textarea"
           placeholder="How was your workout? Any achievements or challenges?"
           :disabled="submitting"
         ></textarea>
@@ -52,7 +52,7 @@
     <!-- Exercise Logs Section -->
     <div class="card max-w-3xl mx-auto mb-8">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold">Exercises</h2>
+        <h2 class="text-lg font-semibold" style="color: var(--color-text)">Exercises</h2>
         <button 
           @click="addExerciseRow" 
           class="btn-secondary"
@@ -62,7 +62,7 @@
         </button>
       </div>
 
-      <div v-if="exerciseLogs.length === 0" class="text-center py-8 text-gray-500">
+      <div v-if="exerciseLogs.length === 0" class="text-center py-8" style="color: var(--color-text-secondary)">
         <p>No exercises added yet. Click "Add Exercise" to get started.</p>
       </div>
 
@@ -70,14 +70,17 @@
         <div 
           v-for="(log, index) in exerciseLogs" 
           :key="`exercise-${index}`"
-          class="border border-gray-200 rounded-lg p-4"
+          class="card-border p-4"
         >
           <div class="flex justify-between items-start mb-4">
-            <h3 class="text-sm font-medium text-gray-700">Exercise {{ index + 1 }}</h3>
+            <h3 class="text-sm font-medium" style="color: var(--color-text)">Exercise {{ index + 1 }}</h3>
             <button 
               @click="removeExerciseRow(index)"
-              class="text-red-600 hover:text-red-800 text-sm"
+              class="text-sm transition-colors duration-200"
+              style="color: var(--color-secondary)"
               :disabled="submitting"
+              @mouseover="$event.target.style.color = 'var(--color-secondary-hover)'" 
+              @mouseleave="$event.target.style.color = 'var(--color-secondary)'"
             >
               Remove
             </button>
@@ -86,10 +89,10 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <!-- Exercise Selection -->
             <div class="lg:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Exercise</label>
+              <label class="label">Exercise</label>
               <select 
                 v-model="log.exercise"
-                class="form-select w-full rounded-md border-gray-300"
+                class="form-select"
                 required
                 :disabled="submitting"
               >
@@ -102,13 +105,13 @@
 
             <!-- Sets -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Sets</label>
+              <label class="label">Sets</label>
               <input 
                 v-model.number="log.sets"
                 type="number"
                 min="1"
                 max="20"
-                class="form-input w-full rounded-md border-gray-300"
+                class="form-input"
                 required
                 :disabled="submitting"
               />
@@ -116,13 +119,13 @@
 
             <!-- Reps -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Reps</label>
+              <label class="label">Reps</label>
               <input 
                 v-model.number="log.reps"
                 type="number"
                 min="1"
                 max="100"
-                class="form-input w-full rounded-md border-gray-300"
+                class="form-input"
                 required
                 :disabled="submitting"
               />
@@ -130,13 +133,13 @@
 
             <!-- Weight -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
+              <label class="label">Weight (kg)</label>
               <input 
                 v-model.number="log.weight"
                 type="number"
                 min="0"
                 step="0.5"
-                class="form-input w-full rounded-md border-gray-300"
+                class="form-input"
                 required
                 :disabled="submitting"
               />
@@ -145,11 +148,11 @@
 
           <!-- Notes for this exercise -->
           <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Notes (optional)</label>
+            <label class="label">Notes (optional)</label>
             <input 
               v-model="log.notes"
               type="text"
-              class="form-input w-full rounded-md border-gray-300"
+              class="form-input"
               placeholder="Any notes for this exercise..."
               :disabled="submitting"
             />
@@ -159,7 +162,7 @@
     </div>
 
     <!-- Error Message -->
-    <div v-if="error" class="mb-4 p-3 bg-red-100 text-red-700 rounded-md max-w-3xl mx-auto">
+    <div v-if="error" class="mb-4 p-3 rounded-md max-w-3xl mx-auto" style="background-color: rgba(239, 68, 68, 0.1); color: var(--color-secondary); border: 1px solid var(--color-secondary)">
       {{ error }}
     </div>
 
@@ -276,7 +279,7 @@ const submitWorkout = async () => {
           sets: exerciseLog.sets,
           reps: exerciseLog.reps,
           weight: exerciseLog.weight,
-          notes: exerciseLog.notes || null
+          notes: exerciseLog.notes || ''
         });
       }
       
@@ -300,6 +303,13 @@ onMounted(async () => {
 
 <style scoped>
 .card {
-  @apply bg-white p-6 rounded-lg shadow-sm border border-gray-200;
+  background-color: var(--color-surface);
+  @apply p-6 rounded-lg shadow-sm;
+  border: 1px solid var(--color-border);
+}
+
+.card-border {
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
 }
 </style>
