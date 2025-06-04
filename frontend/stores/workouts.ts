@@ -52,8 +52,18 @@ export const useWorkoutsStore = defineStore('workouts', {
       
       try {
         const api = useApi();
-        const response = await api.get<WorkoutLog[]>('/workouts/');
-        this.workouts = Array.isArray(response) ? response : [];
+        const response = await api.get('/workouts/');
+        
+        // Handle paginated response
+        if (response && typeof response === 'object' && 'results' in response) {
+          this.workouts = Array.isArray(response.results) ? response.results : [];
+        } else if (Array.isArray(response)) {
+          // Handle direct array response (for backwards compatibility)
+          this.workouts = response;
+        } else {
+          this.workouts = [];
+        }
+        
         return this.workouts;
       } catch (error: any) {
         this.error = error.response?.data?.detail || 'Failed to fetch workouts';
@@ -171,8 +181,18 @@ export const useWorkoutsStore = defineStore('workouts', {
       
       try {
         const api = useApi();
-        const exercises = await api.get<Exercise[]>('/exercises/');
-        this.exercises = Array.isArray(exercises) ? exercises : [];
+        const response = await api.get('/exercises/');
+        
+        // Handle paginated response
+        if (response && typeof response === 'object' && 'results' in response) {
+          this.exercises = Array.isArray(response.results) ? response.results : [];
+        } else if (Array.isArray(response)) {
+          // Handle direct array response (for backwards compatibility)
+          this.exercises = response;
+        } else {
+          this.exercises = [];
+        }
+        
         return this.exercises;
       } catch (error: any) {
         this.error = error.response?.data?.detail || 'Failed to fetch exercises';
