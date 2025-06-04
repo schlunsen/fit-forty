@@ -36,10 +36,20 @@ class BloodPressureReading(models.Model):
 
 
 class ProgressPhoto(models.Model):
+    BODY_PART_CHOICES = [
+        ('shoulders', 'Shoulders'),
+        ('upper_body', 'Upper Body'),
+        ('back', 'Back'),
+        ('stomach', 'Stomach'),
+        ('legs', 'Legs'),
+        ('full_body', 'Full Body'),
+    ]
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='progress_photos')
     image = models.ImageField(upload_to='progress_photos/%Y/%m/')
     timestamp = models.DateTimeField()
     notes = models.TextField(blank=True)
+    body_part_tags = models.JSONField(default=list, help_text="List of body part tags")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

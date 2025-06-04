@@ -28,7 +28,19 @@ fi
 
 # Create directories for static and media files
 mkdir -p /app/static /app/media
-chmod -R 755 /app/static /app/media
+
+# Fix permissions for media and static directories when running as django user
+if [ "$(whoami)" = "django" ]; then
+    # If running as django user, try to fix permissions (this will work if the directory is writable)
+    if [ -w /app ]; then
+        chown -R django:django /app/static /app/media 2>/dev/null || true
+    fi
+    chmod -R 755 /app/static /app/media 2>/dev/null || true
+else
+    # If running as root (development), ensure proper ownership
+    chown -R django:django /app/static /app/media 2>/dev/null || true
+    chmod -R 755 /app/static /app/media
+fi
 
 # Collect static files
 echo "Collecting static files..."
